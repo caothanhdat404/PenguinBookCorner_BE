@@ -11,7 +11,7 @@ const createUser = (newUser) => {
             })
             if (checkUser !== null) {
                 resolve({
-                    status: 'OK',
+                    status: 'ERR',
                     message: 'The user is already'
                 })
             }
@@ -42,14 +42,14 @@ const loginUser = (user) => {
             })
             if (checkUser === null) {
                 resolve({
-                    status: 'OK',
+                    status: 'ERR',
                     message: 'The password or user is incorrect'
                 })
             }
             const comparePassword = bcrypt.compare(password, checkUser.password)
             if(!comparePassword) {
                 resolve({
-                    status: 'OK',
+                    status: 'ERR',
                     message: 'The password or user is incorrect'
                 })
             }
@@ -84,7 +84,7 @@ const updateUser = (id, data) => {
 
             if (checkUser === null) {
                 resolve({
-                    status: 'OK',
+                    status: 'ERR',
                     message: 'The user is not defined'
                 })
             }
@@ -111,7 +111,7 @@ const deleteUser = (id) => {
 
             if (checkUser === null) {
                 resolve({
-                    status: 'OK',
+                    status: 'ERR',
                     message: 'The user is not defined'
                 })
             }
@@ -153,7 +153,7 @@ const getDetailsUser = (id) => {
 
             if (user === null) {
                 resolve({
-                    status: 'OK',
+                    status: 'ERR',
                     message: 'The user is not defined'
                 })
             }
