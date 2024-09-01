@@ -4,7 +4,7 @@ const { generalAccessToken, generalRefreshToken } = require("./JwtService")
 
 const createUser = (newUser) => {
     return new Promise(async (resolve, reject) => {
-        const { email, password, confirmPassword } = newUser
+        const { name = '', email, password, confirmPassword, phone = '', address = '', avatar ='' } = newUser
         try {
             const checkUser = await User.findOne({
                 email: email
@@ -19,6 +19,10 @@ const createUser = (newUser) => {
             const createUser = await User.create({
                 email,
                 password: hash,
+                name,
+                phone,
+                address,
+                avatar
             })
             if (createUser) {
                 resolve({
