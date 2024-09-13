@@ -120,6 +120,7 @@ const getAllProduct = (limit, page, sort, filter) => {
     return new Promise(async (resolve, reject) => {
         try {
             const totalProduct = await Product.countDocuments()
+            let allProduct = []
             
             if (filter) {
                 const label = filter[0]
@@ -146,8 +147,12 @@ const getAllProduct = (limit, page, sort, filter) => {
                     pageCurrent: page
                 })
             }
+            if (!limit) {
+                allProduct = await Product.find()
+            } else {
+                allProduct = await Product.find().limit(limit).skip((page - 1) * limit)
+            }
 
-            const allProduct = await Product.find().limit(limit).skip((page - 1) * limit)
             resolve({
                 status: 'OK',
                 message: 'SUCCESS',
@@ -162,10 +167,43 @@ const getAllProduct = (limit, page, sort, filter) => {
     })
 }
 
+const getAllType = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const allType = await Product.distinct('type')
+
+            resolve({
+                status: 'OK',
+                message: 'SUCCESS',
+                data: allType,
+            })
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
+
+const deleteManyProduct = (ids) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await Product.deleteMany({_id: ids})
+            
+            resolve({
+                status: 'OK',
+                message: 'Delete product success'
+            })
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
+
 module.exports = {
     createProduct,
     updateProduct,
     deleteProduct,
     getDetailsProduct,
-    getAllProduct
+    getAllProduct,
+    getAllType,
+    deleteManyProduct
 }
