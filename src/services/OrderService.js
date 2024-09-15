@@ -67,7 +67,7 @@ const createOrder = (newOrder) => {
 const getDetailsOrder = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const order = await Order.findOne({
+            const order = await Order.find({
                 user: id
             })
 
